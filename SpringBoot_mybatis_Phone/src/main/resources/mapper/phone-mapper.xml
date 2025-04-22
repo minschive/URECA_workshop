@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.phone.dao.PhoneDao">
+
+    <select id="listPhone" parameterType="com.mycom.myapp.phone.dto.PhoneParamDto" resultType="com.mycom.myapp.phone.dto.PhoneDto">
+        select phone_id, brand, model, price, stock
+        from phones
+        order by phone_id
+            limit #{limit} offset #{offset};
+
+    </select>
+
+    <select id="listPhoneTotalCount">
+        select count(*) from phones;
+    </select>
+
+    <select id="listPhoneSearchWord" parameterType="com.mycom.myapp.phone.dto.PhoneParamDto" resultType="com.mycom.myapp.phone.dto.PhoneDto">
+        select p.phone_id, p.brand, p.model, p.price, p.stock
+        from phones p
+        where p.model like concat('%', #{searchWord}, '%')
+        order by phone_id
+            limit #{limit} offset #{offset};
+    </select>
+
+    <select id="listPhoneSearchWordTotalCount" parameterType="com.mycom.myapp.phone.dto.PhoneParamDto">
+        select count(*) from phones where model like concat('%', #{searchWord}, '%');
+    </select>
+
+<!--    <select id="detailPhone" parameterType="int" resultType="com.mycom.myapp.phone.dto.PhoneDto">-->
+<!--        select phone_id, brand, model, price, stock-->
+<!--        from phones-->
+<!--        where phone_id = #{phoneId}-->
+<!--    </select>-->
+
+</mapper>

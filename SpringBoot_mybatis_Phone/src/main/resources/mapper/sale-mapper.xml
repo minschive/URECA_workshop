@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mycom.myapp.sale.dao.SaleDao">
+
+    <!-- 목록 조회 -->
+    <select id="listSale" parameterType="com.mycom.myapp.sale.dto.SaleParamDto" resultType="com.mycom.myapp.sale.dto.SaleDto">
+        SELECT
+            s.sale_id,
+            s.user_seq,
+            u.user_name,
+            s.phone_id,
+            p.model,
+            s.quantity,
+            s.total_price,
+            s.sale_date
+        FROM sales s
+                 JOIN users u ON s.user_seq = u.user_seq
+                 JOIN phones p ON s.phone_id = p.phone_id
+        ORDER BY s.sale_id
+            LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <!-- 전체 건수 조회 -->
+    <select id="listSaleTotalCount" resultType="int">
+        SELECT COUNT(*)
+        FROM sales;
+    </select>
+
+    <!-- 검색어로 목록 조회 -->
+    <select id="listSaleSearchWord" parameterType="com.mycom.myapp.sale.dto.SaleParamDto" resultType="com.mycom.myapp.sale.dto.SaleDto">
+        SELECT
+            s.sale_id,
+            s.user_seq,
+            u.user_name,
+            s.phone_id,
+            p.model,
+            s.quantity,
+            s.total_price,
+            s.sale_date
+        FROM sales s
+                 JOIN users u ON s.user_seq = u.user_seq
+                 JOIN phones p ON s.phone_id = p.phone_id
+        WHERE u.user_name LIKE CONCAT('%', #{searchWord}, '%')
+        ORDER BY s.sale_id
+            LIMIT #{limit} OFFSET #{offset};
+    </select>
+
+    <!-- 검색어 건수 조회 -->
+    <select id="listSaleSearchWordTotalCount" parameterType="com.mycom.myapp.sale.dto.SaleParamDto" resultType="int">
+        SELECT COUNT(*)
+        FROM sales s
+                 JOIN users u ON s.user_seq = u.user_seq
+        WHERE u.user_name LIKE CONCAT('%', #{searchWord}, '%');
+    </select>
+
+</mapper>

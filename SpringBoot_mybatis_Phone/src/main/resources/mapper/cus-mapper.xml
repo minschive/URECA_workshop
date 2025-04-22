@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mycom.myapp.cus.dao.CusDao">
+
+    <select id="listCus" parameterType="com.mycom.myapp.cus.dto.CusParamDto" resultType="com.mycom.myapp.cus.dto.CusDto">
+        select user_seq, user_name, user_email, user_password, user_profile_image, user_register_date
+        from users
+        order by user_seq
+            limit #{limit} offset #{offset};
+    </select>
+
+    <select id="listCusTotalCount">
+        select count(*) from users;
+    </select>
+
+    <select id="listCusSearchWord" parameterType="com.mycom.myapp.cus.dto.CusParamDto" resultType="com.mycom.myapp.cus.dto.CusParamDto">
+        select u.user_seq, u.user_name, u.user_email, u.user_password, u.user_profile_image, u.user_register_date
+        from users u
+        where u.user_name like concat('%', #{searchWord}, '%')
+        order by u.user_seq
+            limit #{limit} offset #{offset};
+    </select>
+
+    <select id="listCusSearchWordTotalCount" parameterType="com.mycom.myapp.cus.dto.CusParamDto">
+        select count(*) from users where user_name like concat('%', #{searchWord}, '%');
+    </select>
+
+</mapper>
