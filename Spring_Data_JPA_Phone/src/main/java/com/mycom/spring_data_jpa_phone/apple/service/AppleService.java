@@ -12,7 +12,7 @@ public interface AppleService {
     Optional<Apple> detailApple(long id);
 
     Apple insertApple(Apple apple);
-    Optional<Apple> updateApple(Apple samsung);
+    Optional<Apple> updateApple(Apple apple);
     void deleteApple(long id);
 
     long countApple();
